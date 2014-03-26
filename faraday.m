@@ -1,5 +1,5 @@
-function [obj]=faraday(sp)
-% Keithley Instruments Inc. March 4, 2003 --> solo emite hasta 200V
+function [obj]=faraday()
+% Keithley Instruments Inc. March 4, 2003 --> solo emite hasta 210V
 
 % This program is generated using Intrument Creation Tool from
 % Instrument Control Toolbox v2.2 Matlab 6.5 (R13)
@@ -9,7 +9,12 @@ function [obj]=faraday(sp)
 % You can then copy Model 2400 Specific Functions into your mfile.
 % or you may just try to change the GPIB maufacturer name in the GPIB
 % object.
+clearAllPorts
+close all
+clc
 
+
+sp = 21;
 
 % Create the instrument object.
 obj = gpib('ni', 0, sp);
@@ -47,7 +52,7 @@ if nargout > 0
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-VOLTAGE=67.5;
+VOLTAGE=5;
 range_CURRENT=1.00;
 MAX_CURRENT=1.05;
 
@@ -68,9 +73,19 @@ fprintf(obj,':SENS:CURR:PROT %f',MAX_CURRENT) %CURRENT PROTECTION
 fprintf(obj,':SENS:CURR:RANG %f',range_CURRENT) %CURRENT RANGE
 fprintf(obj,':FORM:ELEM CURR') %ONLY READ CURRENT COMMAND
 fprintf(obj,':OUTP ON') %TURN ON VOLTAGE BEFORE READING
-fprintf(obj,':READ?') %READ CURRENT OF THE FARADAY CUP
+fprintf(obj,':INIT') %READ CURRENT OF THE FARADAY CUP
 
 fprintf(obj,':OUTP OFF') %TURN OFF THE VOLTAGE AFTER READING
+
+% fprintf(obj,':*RST');
+% fprintf(obj,':*CLS ');
+% fprintf(obj,':*SRE 0');
+% make sure STB bit is 0
+% STB = query(obj, '*STB?');
+% disconnect(obj)
+%fclose(obj);
+delete(obj)
+clear obj
 
 
 end

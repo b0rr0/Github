@@ -48,8 +48,8 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 PROTECTION_VOLTAGE=210;
-start_voltage=-67.5;
-end_voltage=67.5;
+start_voltage=-200;
+end_voltage=200;
 number_points=500;
 
 % Model 2400 Specific Functions
@@ -70,22 +70,11 @@ fprintf(obj,':SOUR:VOLT:STAR %f', start_voltage)  % start voltage
 fprintf(obj,':SOUR:VOLT:STOP %f', end_voltage)    % stop voltage
 volt_step = (end_voltage - start_voltage)/(number_points);
 fprintf(obj,':SOUR:VOLT:STEP %f', volt_step)     % 
-fprintf(obj,':SOUR:VOLT:MODE SWE') 
-fprintf(obj,':SOUR:SWE:SPAC LIN')                % Select sweep escala LINear
+fprintf(obj,':SOUR:VOLT:MODE SWE')
+fprintf(obj,':SOUR:CLE:AUTO OFF') 
+fprintf(obj,':SOUR:SWE:SPAC LIN')                % Select sweep escala Linear
 fprintf(obj,':SOUR:DEL:AUTO OFF')                %Disable auto delay 
 fprintf(obj,':SOUR:DEL %f', source_delay)         % Set source delay  0 - 9999.9980 sec
-
-fprintf(obj,':SENS:FUNC "CURR"')                   %select source funcion
-fprintf(obj,':SENS:CURR:NPLC %f', NPLC)          %set  pulse measurement speed 0.004 - 0.
-
-fprintf(obj,':SENS:FUNC:CONC ON')                %Turn on (PROBAR OFF)
-fprintf(obj,':SENS:CURR:RANG:AUTO OFF')    %changed .......
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% IMPORTANT: if the unit goes into compliance, 
-% adjust the compliance or the range value
-fprintf(obj,':SENS:CURR:PROT:LEV %f',compliance_I) % current compliance
-fprintf(obj,':SENS:CURR:RANG %f', I_range)    % current measurement range
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 fprintf(obj,':FORM:ELEM:SENS VOLT,CURR')
