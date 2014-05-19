@@ -1,0 +1,11 @@
+fprint "FUNC:RAMP:SYMM 100"
+
+fprint "OUTP:LOAD 50" % Set the load impedance in Ohms
+
+fprint "FREQ 66667000" % Set the frequency.
+
+fprint "VOLT:LOW -5" % Low level = -5 V
+
+fprint "VOLT:HIGH 0.75" % High level = 5 V
+
+fprint "OUTP ON"
